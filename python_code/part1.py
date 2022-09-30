@@ -27,7 +27,25 @@ def find_rgb_pixels(path):
              ['"Самый желтый" пиксель:', yellow_coord]]
     return(output)
 
-def show_rgb_pixels(coord, path):
+def colored_spot(path):
+    import cv2; import numpy as np
+    image = cv2.imread(path)
+    I = np.array(cv2.cvtColor(image, cv2.COLOR_BGR2HSV), copy=True)
+    lower_red = np.array([0, 50, 50])
+    upper_red = np.array([7, 255, 255])
+    image = cv2.inRange(I, lower_red, upper_red)
+
+    #for i in range(image.shape[0]):
+    #    for j in range(image.shape[1]):
+    #        if I[i][j][k] > lower_red and I[i][j][k]  < upper_red:
+    #            image[i][j][k] = 255
+    #        else:
+    #            image[i][j][k] = 0
+    cv2.imshow("Image", image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def show(coord, path):
     #функция выводит изображение на экран и обводит найденные find_rgb_pixels() пиксели
     #используется для проверки корректности работы find_rgb_pixels()
     import cv2
