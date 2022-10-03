@@ -28,22 +28,64 @@ def find_rgb_pixels(path):
     return(output)
 
 def colored_spot(path):
-    import cv2; import numpy as np
+    import cv2
+    import numpy as np
+    output = {}
+    xy = [0, 0]
     image = cv2.imread(path)
     I = np.array(cv2.cvtColor(image, cv2.COLOR_BGR2HSV), copy=True)
-    lower_red = np.array([0, 50, 50])
-    upper_red = np.array([7, 255, 255])
-    image = cv2.inRange(I, lower_red, upper_red)
 
-    #for i in range(image.shape[0]):
-    #    for j in range(image.shape[1]):
-    #        if I[i][j][k] > lower_red and I[i][j][k]  < upper_red:
-    #            image[i][j][k] = 255
-    #        else:
-    #            image[i][j][k] = 0
+    lower_red = np.array([0, 85, 105])
+    upper_red = np.array([237, 255, 255])
+    lower_blue = np.array([150, 50, 50])
+    upper_blue = np.array([175, 255, 255])
+    lower_yellow = np.array([38, 50, 50])
+    upper_yellow = np.array([50, 255, 255])
+
+
+    image = cv2.inRange(I, lower_red, upper_red)
+    moments = cv2.moments(image, 1)
+    x_moment = moments['m01']
+    y_moment = moments['m10']
+    area = moments['m00']
+    if area > 20:
+        xy[0] = int(x_moment / area)
+        xy[1] = int(y_moment / area)
+    output['Красный'] = xy
     cv2.imshow("Image", image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
+    image = cv2.inRange(I, lower_blue, upper_blue)
+    moments = cv2.moments(image, 1)
+    #x_moment = moments['m01']
+   # y_moment = moments['m10']
+    #area = moments['m00']
+    #xy[0] = int(x_moment / area)
+    #xy[1] = int(y_moment / area)
+    output['Синий'] = [0, 0]
+    cv2.imshow("Image", image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    image = cv2.inRange(I, lower_yellow, upper_yellow)
+    moments = cv2.moments(image, 1)
+    #x_moment = moments['m01']
+    #y_moment = moments['m10']
+    #area = moments['m00']
+    #xy[0] = int(x_moment / area)
+    #xy[1] = int(y_moment / area)
+    cv2.imshow("Image", image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    output['Желтый'] = [0, 0]
+    return output
+
+    #cv2.imshow("Image", image)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
+
+
 
 def show(coord, path):
     #функция выводит изображение на экран и обводит найденные find_rgb_pixels() пиксели
@@ -52,11 +94,11 @@ def show(coord, path):
     image = cv2.imread(path)
     #найденные пиксели обводятся кругами для ручной проверки изображения
     #красный:
-    cv2.circle(image, (coord[0][1][1], coord[0][1][0]), len(image)//80, (0, 0, 255), 3)
+    cv2.circle(image, (coord['Красный'][1], coord['Красный'][0]), len(image)//80, (0, 0, 255), 3)
     #синий:
-    cv2.circle(image, (coord[1][1][1], coord[1][1][0]), len(image)//80, (255, 0, 0), 3)
+    cv2.circle(image, (coord['Синий'][1], coord['Синий'][0]), len(image)//80, (255, 0, 0), 3)
     # желтый:
-    cv2.circle(image, (coord[2][1][1], coord[2][1][0]), len(image)//80, (0, 255, 255), 3)
+    cv2.circle(image, (coord['Желтый'][1], coord['Желтый'][0]), len(image)//80, (0, 255, 255), 3)
 
     cv2.imshow("Image", image)
     cv2.waitKey(0)
