@@ -36,11 +36,11 @@ def colored_spot(path):
     I = np.array(cv2.cvtColor(image, cv2.COLOR_BGR2HSV), copy=True)
 
     lower_red = np.array([0, 85, 105])
-    upper_red = np.array([237, 255, 255])
+    upper_red = np.array([8, 255, 255])
     lower_blue = np.array([150, 50, 50])
     upper_blue = np.array([175, 255, 255])
-    lower_yellow = np.array([38, 50, 50])
-    upper_yellow = np.array([50, 255, 255])
+    lower_yellow = np.array([12, 100, 100])
+    upper_yellow = np.array([17, 255, 255])
 
 
     image = cv2.inRange(I, lower_red, upper_red)
@@ -58,27 +58,27 @@ def colored_spot(path):
 
     image = cv2.inRange(I, lower_blue, upper_blue)
     moments = cv2.moments(image, 1)
-    #x_moment = moments['m01']
-   # y_moment = moments['m10']
-    #area = moments['m00']
-    #xy[0] = int(x_moment / area)
-    #xy[1] = int(y_moment / area)
-    output['Синий'] = [0, 0]
+    x_moment = moments['m01']
+    y_moment = moments['m10']
+    area = moments['m00']
+    xy[0] = int(x_moment / area)
+    xy[1] = int(y_moment / area)
+    output['Синий'] = xy
     cv2.imshow("Image", image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
     image = cv2.inRange(I, lower_yellow, upper_yellow)
     moments = cv2.moments(image, 1)
-    #x_moment = moments['m01']
-    #y_moment = moments['m10']
-    #area = moments['m00']
-    #xy[0] = int(x_moment / area)
-    #xy[1] = int(y_moment / area)
+    x_moment = moments['m01']
+    y_moment = moments['m10']
+    area = moments['m00']
+    xy[0] = int(x_moment / area)
+    xy[1] = int(y_moment / area)
     cv2.imshow("Image", image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    output['Желтый'] = [0, 0]
+    output['Желтый'] = xy
     return output
 
     #cv2.imshow("Image", image)

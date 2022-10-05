@@ -8,7 +8,8 @@ if __name__ == '__main__':
 cv2.namedWindow("result")  # создаем главное окно
 cv2.namedWindow("settings")  # создаем окно настроек
 
-cap = cv2.VideoCapture(0)
+#cap = cv2.VideoCapture(0)
+img = cv2.imread('00000003_000000003F3B2B0A.bmp')
 # создаем 6 бегунков для настройки начального и конечного цвета фильтра
 cv2.createTrackbar('h1', 'settings', 0, 255, nothing)
 cv2.createTrackbar('s1', 'settings', 0, 255, nothing)
@@ -19,7 +20,7 @@ cv2.createTrackbar('v2', 'settings', 255, 255, nothing)
 crange = [0, 0, 0, 0, 0, 0]
 
 while True:
-    flag, img = cap.read()
+
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     # считываем значения бегунков
@@ -43,5 +44,4 @@ while True:
     if ch == 27:
         break
 
-cap.release()
 cv2.destroyAllWindows()
