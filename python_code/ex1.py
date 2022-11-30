@@ -9,7 +9,7 @@ cv2.namedWindow("result")  # создаем главное окно
 cv2.namedWindow("settings")  # создаем окно настроек
 
 #cap = cv2.VideoCapture(0)
-img = cv2.imread('00000003_000000003F3B2B0A.bmp')
+img = cv2.imread('00000000_0000000058F39A37.bmp')
 # создаем 6 бегунков для настройки начального и конечного цвета фильтра
 cv2.createTrackbar('h1', 'settings', 0, 255, nothing)
 cv2.createTrackbar('s1', 'settings', 0, 255, nothing)
