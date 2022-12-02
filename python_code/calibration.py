@@ -67,12 +67,15 @@ def undistortion(cal_res, path):
     h, w = img.shape[:2]
     mtx = cal_res[0]
     dist = cal_res[1]
+    #новая матрица внутреннего ориентирования для исправленного изображения
     newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
-    # dвстроенная функция восстановления изображения
+    # встроенная функция восстановления изображения
     dst = cv2.undistort(img, mtx, dist, None, newcameramtx)
     # crop the image
     x, y, w, h = roi
     dst = dst[y:y + h, x:x + w]
     cv2.imwrite('calibresult.png', dst)
     cv2.waitKey(0)
-
+    print("NewCamera matrix : \n")
+    print(newcameramtx)
+    return newcameramtx

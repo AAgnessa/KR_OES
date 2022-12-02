@@ -8,6 +8,6 @@ import calibration
 path = './images/*.bmp'
 cal_res = calibration.calibration(path)
 path = 'forcalib.bmp'
-calibration.undistortion(cal_res, path)
+newcameramatrix = calibration.undistortion(cal_res, path)
 pass
 #part1.show(a, input)
